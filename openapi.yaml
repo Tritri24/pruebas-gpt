@@ -1,33 +1,36 @@
 openapi: 3.1.0
 info:
-  title: LCPS Action
+  title: Consulta LCSP - Texto Consolidado
   version: 1.0.0
-  description: API para acceder a datos de escuelas de LCPS
+  description: Permite al GPT acceder al texto vigente y consolidado de la Ley de Contratos del Sector Público (Ley 9/2017), extraído desde el BOE.
 servers:
-  - url: https://api.lcps.k12.nm.us
-    description: LCPS API Server
+  - url: https://www.boe.es
+    description: Servidor del BOE (Boletín Oficial del Estado)
 paths:
-  /schools:
+  /buscar/act.php:
     get:
-      operationId: getSchools
-      summary: Obtiene una lista de escuelas
-      description: Retorna un listado completo de escuelas disponibles en el sistema LCPS.
+      operationId: getLcspConsolidado
+      summary: Obtener el texto consolidado de la LCSP desde el BOE
+      description: Devuelve el HTML del texto consolidado de la Ley 9/2017, de Contratos del Sector Público, que el GPT puede analizar para buscar artículos concretos.
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: Identificador de la disposición legal en el BOE.
+          example: BOE-A-2017-12902
+          schema:
+            type: string
+        - name: modo
+          in: query
+          required: true
+          description: Establece el modo de visualización. Debe ser `consolidado` para obtener la versión vigente.
+          example: consolidado
+          schema:
+            type: string
       responses:
         '200':
-          description: Lista de escuelas
+          description: HTML del texto consolidado de la LCSP.
           content:
-            application/json:
+            text/html:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                      example: 123
-                    name:
-                      type: string
-                      example: Vista Middle School
-                    address:
-                      type: string
-                      example: 123 School Ave
+                type: string
