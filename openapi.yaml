@@ -1,0 +1,33 @@
+openapi: 3.1.0
+info:
+  title: LCPS Action
+  version: 1.0.0
+  description: API para acceder a datos de escuelas de LCPS
+servers:
+  - url: https://api.lcps.k12.nm.us
+    description: LCPS API Server
+paths:
+  /schools:
+    get:
+      operationId: getSchools
+      summary: Obtiene una lista de escuelas
+      description: Retorna un listado completo de escuelas disponibles en el sistema LCPS.
+      responses:
+        '200':
+          description: Lista de escuelas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 123
+                    name:
+                      type: string
+                      example: Vista Middle School
+                    address:
+                      type: string
+                      example: 123 School Ave
